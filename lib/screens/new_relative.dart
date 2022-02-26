@@ -118,464 +118,496 @@ class _NewRelativeState extends State<NewRelative> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              widget.back();
+            },
+          ),
+          title: Text(
+            'Add New Profile',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
         body: Center(
-      child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  'Name',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  initialValue: _relative!.fullName,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_focusNode);
-                  },
-                  onSaved: (value) {
-                    _relative!.fullName = value!;
-
-                    if (value.split(" ").length == 2) {
-                      _relative!.firstName = value.split(" ")[0];
-                      _relative!.lastName = value.split(" ")[1];
-                    } else if (value.split(" ").length == 2) {
-                      _relative!.firstName = value.split(" ")[0];
-                      _relative!.lastName = value.split(" ")[2];
-                      _relative!.middleName = value.split(" ")[1];
-                    }
-                  },
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter the name';
-                    }
-                    if (value.split(" ").length < 2) {
-                      return 'Please enter your full name';
-                    }
-                    return null;
-                  },
-                  decoration: _inputDecoration("Enter Name"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  'Date of Birth',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 125,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        initialValue: _relative!.birthDetails.dobDay.toString(),
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_focusNode);
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Invalid DD';
-                          }
-
-                          if (int.parse(value) > 31) {
-                            return 'Invalid DD';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _relative!.birthDetails.dobDay = int.parse(value!);
-                        },
-                        decoration: _inputDecoration("DD"),
-                        maxLength: 2,
-                      ),
+          child: Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text(
+                      'Name',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    SizedBox(
-                      width: 125,
-                      child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        initialValue:
-                            _relative!.birthDetails.dobMonth.toString(),
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_focusNode);
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Invalid MM';
-                          }
-                          if (int.parse(value) > 12) {
-                            return 'Invalid MM';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _relative!.birthDetails.dobMonth = int.parse(value!);
-                        },
-                        decoration: _inputDecoration("MM"),
-                        maxLength: 2,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 125,
-                      child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        initialValue:
-                            _relative!.birthDetails.dobYear.toString(),
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_focusNode);
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Invalid YYYY';
-                          }
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      initialValue: _relative!.fullName,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(_focusNode);
+                      },
+                      onSaved: (value) {
+                        _relative!.fullName = value!;
 
-                          if (int.parse(value) < 1000) {
-                            return 'Invalid YYYY';
-                          }
-
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _relative!.birthDetails.dobYear = int.parse(value!);
-                        },
-                        maxLength: 4,
-                        decoration: _inputDecoration("YYYY"),
-                      ),
+                        if (value.split(" ").length == 2) {
+                          _relative!.firstName = value.split(" ")[0];
+                          _relative!.lastName = value.split(" ")[1];
+                        } else if (value.split(" ").length == 2) {
+                          _relative!.firstName = value.split(" ")[0];
+                          _relative!.lastName = value.split(" ")[2];
+                          _relative!.middleName = value.split(" ")[1];
+                        }
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter the name';
+                        }
+                        if (value.split(" ").length < 2) {
+                          return 'Please enter your full name';
+                        }
+                        return null;
+                      },
+                      decoration: _inputDecoration("Enter Name"),
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  'Time of Birth',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 100,
-                      child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        initialValue:
-                            _relative!.birthDetails.tobHour.toString(),
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_focusNode);
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Invalid HH';
-                          }
-
-                          if (int.parse(value) > 23) {
-                            return 'Invalid HH';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _relative!.birthDetails.tobHour = int.parse(value!);
-                        },
-                        maxLength: 2,
-                        decoration: _inputDecoration("HH"),
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text(
+                      'Date of Birth',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    SizedBox(
-                      width: 100,
-                      child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        initialValue: _relative!.birthDetails.tobMin.toString(),
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_focusNode);
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Invalid MM';
-                          }
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 125,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
+                            initialValue:
+                                _relative!.birthDetails.dobDay.toString(),
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_focusNode);
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Invalid DD';
+                              }
 
-                          if (int.parse(value) > 59) {
-                            return 'Invalid MM';
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _relative!.birthDetails.tobMin = int.parse(value!);
-                        },
-                        maxLength: 4,
-                        decoration: _inputDecoration("MM"),
-                      ),
+                              if (int.parse(value) > 31) {
+                                return 'Invalid DD';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _relative!.birthDetails.dobDay =
+                                  int.parse(value!);
+                            },
+                            decoration: _inputDecoration("DD"),
+                            maxLength: 2,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 125,
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                _relative!.birthDetails.dobMonth.toString(),
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_focusNode);
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Invalid MM';
+                              }
+                              if (int.parse(value) > 12) {
+                                return 'Invalid MM';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _relative!.birthDetails.dobMonth =
+                                  int.parse(value!);
+                            },
+                            decoration: _inputDecoration("MM"),
+                            maxLength: 2,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 125,
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                _relative!.birthDetails.dobYear.toString(),
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_focusNode);
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Invalid YYYY';
+                              }
+
+                              if (int.parse(value) < 1000) {
+                                return 'Invalid YYYY';
+                              }
+
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _relative!.birthDetails.dobYear =
+                                  int.parse(value!);
+                            },
+                            maxLength: 4,
+                            decoration: _inputDecoration("YYYY"),
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      height: 60,
-                      // width: 100,
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: 18.0, right: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(0),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _relative!.birthDetails.meridiem = 'AM';
-                                });
-                              },
-                              child: Container(
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color:
-                                      _relative!.birthDetails.meridiem == 'AM'
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text(
+                      'Time of Birth',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 100,
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                _relative!.birthDetails.tobHour.toString(),
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_focusNode);
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Invalid HH';
+                              }
+
+                              if (int.parse(value) > 23) {
+                                return 'Invalid HH';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _relative!.birthDetails.tobHour =
+                                  int.parse(value!);
+                            },
+                            maxLength: 2,
+                            decoration: _inputDecoration("HH"),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
+                            initialValue:
+                                _relative!.birthDetails.tobMin.toString(),
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context).requestFocus(_focusNode);
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Invalid MM';
+                              }
+
+                              if (int.parse(value) > 59) {
+                                return 'Invalid MM';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _relative!.birthDetails.tobMin =
+                                  int.parse(value!);
+                            },
+                            maxLength: 4,
+                            decoration: _inputDecoration("MM"),
+                          ),
+                        ),
+                        Container(
+                          height: 60,
+                          // width: 100,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(bottom: 18.0, right: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.all(0),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _relative!.birthDetails.meridiem = 'AM';
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 70,
+                                    decoration: BoxDecoration(
+                                      color: _relative!.birthDetails.meridiem ==
+                                              'AM'
                                           ? Color(0xff4b60bd)
                                           : Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6)),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "AM",
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color:
-                                            _relative!.birthDetails.meridiem ==
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "AM",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: _relative!.birthDetails
+                                                        .meridiem ==
                                                     'AM'
                                                 ? Colors.white
                                                 : Colors.black),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _relative!.birthDetails.meridiem = 'PM';
-                                  logger.d(_relative!.birthDetails.meridiem);
-                                });
-                              },
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.all(0),
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      _relative!.birthDetails.meridiem != 'AM'
-                                          ? Color(0xff4b60bd)
-                                          : Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6)),
-                                ),
-                                width: 70,
-                                child: Center(
-                                  child: Text(
-                                    "PM",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: _relative!.birthDetails.meridiem !=
-                                              'AM'
-                                          ? Colors.white
-                                          : Colors.black,
+                                      ),
                                     ),
                                   ),
                                 ),
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _relative!.birthDetails.meridiem = 'PM';
+                                      logger
+                                          .d(_relative!.birthDetails.meridiem);
+                                    });
+                                  },
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.all(0),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: _relative!.birthDetails.meridiem !=
+                                              'AM'
+                                          ? Color(0xff4b60bd)
+                                          : Colors.white,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    width: 70,
+                                    child: Center(
+                                      child: Text(
+                                        "PM",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: _relative!
+                                                      .birthDetails.meridiem !=
+                                                  'AM'
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Text(
+                      'Place of Birth',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      //
+                      initialValue: _relative!.birthPlace.placeName,
+                      onSaved: (newValue) {
+                        logger.d("Placeeeeeeeeeeeeeeeeeeee");
+                        String placeId = DateTime.now().toString();
+
+                        // logger
+                        //     .i(newValue + "-----------------------" + placeId);
+                        _relative!.birthPlace =
+                            BirthPlace(placeName: newValue!, placeId: placeId);
+                      },
+
+                      decoration: _inputDecoration(" "),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Text(
+                              'Gender',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 16),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 175,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.grey),
+                                ),
+                                child: DropdownButton(
+                                  value: dropdownValueGender,
+                                  isExpanded: true,
+                                  underline: Container(),
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Male'),
+                                      ),
+                                      value: 'MALE',
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Female'),
+                                      ),
+                                      value: 'FEMALE',
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Other'),
+                                      ),
+                                      value: 'OTHER',
+                                    )
+                                  ],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      dropdownValueGender = value as String;
+                                      _relative!.gender = dropdownValueGender;
+                                    });
+                                    logger.i(dropdownValueGender);
+                                  },
+                                ),
                               ),
                             ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Text(
+                              'Gender',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 16),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: 175,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.grey),
+                                ),
+                                child: DropdownButton(
+                                  value: dropdownValueRelation,
+                                  isExpanded: true,
+                                  underline: Container(),
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Father'),
+                                      ),
+                                      value: 1,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Son'),
+                                      ),
+                                      value: 6,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Brother'),
+                                      ),
+                                      value: 3,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Sister'),
+                                      ),
+                                      value: 4,
+                                    )
+                                  ],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      dropdownValueRelation = value as int;
+
+                                      _relative!.relationId =
+                                          dropdownValueRelation;
+                                    });
+                                    logger.i(dropdownValueRelation);
+                                  },
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 120.0),
+                    child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(primary: Color(0xfffe944c)),
+                      onPressed: () {
+                        _saveForm();
+                      },
+                      child: Text('Save Changes'),
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  'Place of Birth',
-                  style: TextStyle(color: Colors.grey, fontSize: 16),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  //
-                  initialValue: _relative!.birthPlace.placeName,
-                  onSaved: (newValue) {
-                    logger.d("Placeeeeeeeeeeeeeeeeeeee");
-                    String placeId = DateTime.now().toString();
-
-                    // logger
-                    //     .i(newValue + "-----------------------" + placeId);
-                    _relative!.birthPlace =
-                        BirthPlace(placeName: newValue!, placeId: placeId);
-                  },
-
-                  decoration: _inputDecoration(" "),
-                ),
-              ),
-              Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Text(
-                          'Gender',
-                          style: TextStyle(color: Colors.grey, fontSize: 16),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 175,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: DropdownButton(
-                              value: dropdownValueGender,
-                              isExpanded: true,
-                              underline: Container(),
-                              items: [
-                                DropdownMenuItem(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Male'),
-                                  ),
-                                  value: 'MALE',
-                                ),
-                                DropdownMenuItem(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Female'),
-                                  ),
-                                  value: 'FEMALE',
-                                ),
-                                DropdownMenuItem(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Other'),
-                                  ),
-                                  value: 'OTHER',
-                                )
-                              ],
-                              onChanged: (value) {
-                                setState(() {
-                                  dropdownValueGender = value as String;
-                                  _relative!.gender = dropdownValueGender;
-                                });
-                                logger.i(dropdownValueGender);
-                              },
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Text(
-                          'Gender',
-                          style: TextStyle(color: Colors.grey, fontSize: 16),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 175,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: DropdownButton(
-                              value: dropdownValueRelation,
-                              isExpanded: true,
-                              underline: Container(),
-                              items: [
-                                DropdownMenuItem(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Father'),
-                                  ),
-                                  value: 1,
-                                ),
-                                DropdownMenuItem(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Son'),
-                                  ),
-                                  value: 6,
-                                ),
-                                DropdownMenuItem(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Brother'),
-                                  ),
-                                  value: 3,
-                                ),
-                                DropdownMenuItem(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text('Sister'),
-                                  ),
-                                  value: 4,
-                                )
-                              ],
-                              onChanged: (value) {
-                                setState(() {
-                                  dropdownValueRelation = value as int;
-
-                                  _relative!.relationId = dropdownValueRelation;
-                                });
-                                logger.i(dropdownValueRelation);
-                              },
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  )
                 ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 120.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Color(0xfffe944c)),
-                  onPressed: () {
-                    _saveForm();
-                  },
-                  child: Text('Save Changes'),
-                ),
-              )
-            ],
-          )),
-    ));
+              )),
+        ));
   }
 }

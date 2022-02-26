@@ -45,9 +45,9 @@ class _RelativeHomeState extends State<RelativeHome> {
               height: 60,
             ),
             leading: IconButton(
-              icon: ImageIcon(
-                AssetImage("assets/images/hamburger.png"),
-                color: Colors.amber[800],
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.amber.shade800,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -161,35 +161,9 @@ class _RelativeHomeState extends State<RelativeHome> {
                         ),
                       ),
                     ),
-                    // AdvancedSwitch(
-                    //   controller: _controller,
-                    //   width: cwidth,
-                    //   height: 50,
-                    //   borderRadius: BorderRadius.circular(5),
-                    //   thumb: ValueListenableBuilder<bool>(
-                    //     valueListenable: _controller,
-                    //     builder: (_, value, __) {
-                    //       return value
-                    //           ? SizedBox(
-                    //               width: 400,
-                    //               child: Container(
-                    //                 color: Colors.black,
-                    //                 child: Text("Friends and Family Profile"),
-                    //               ),
-                    //             )
-                    //           : SizedBox(
-                    //               width: 200,
-                    //               child: Text("Basic Profile"),
-                    //             );
-                    //     },
-                    //   ),
-                    // ),
                     _isFriends
                         ? Expanded(
                             child: RelativeScreen(),
-                            // child: Container(
-                            //   child: Center(child: Text("Child")),
-                            // ),
                           )
                         : Container(
                             child: Text("Parent"),
