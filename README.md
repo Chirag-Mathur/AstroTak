@@ -1,16 +1,8 @@
-# astrotak
+# Assignment for Frontend Role at India Today Group 
 
-A new Flutter project.
+## Details
+- Name:- Chirag Mathur
+- Email ID:- chiragmathurindia@gmail.com
+- APK Link:- [APK LINK](https://drive.google.com/file/d/16-HFUUEibpqguGDGy8vrVwiEY6eYdko7/view?usp=sharing)
+- Demo Video Link:- 
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
