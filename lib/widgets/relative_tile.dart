@@ -15,9 +15,16 @@ class RelativeTile extends StatelessWidget {
             child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("${relative.fullName}"),
+        Flexible(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "${relative.fullName}",
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
         ),
         Text(
             "${relative.birthDetails.dobDay}-${relative.birthDetails.dobMonth}-${relative.birthDetails.dobYear}"),
@@ -27,13 +34,6 @@ class RelativeTile extends StatelessWidget {
         IconButton(
           onPressed: () {
             editRel(relative);
-
-            // Navigator.of(context).push(MaterialPageRoute(
-            //   builder: (context) => NewRelative(
-            //     oldRelative: relative,
-            //     //),
-            //   ),
-            // ));
           },
           icon: Icon(
             Icons.edit,

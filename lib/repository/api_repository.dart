@@ -24,4 +24,8 @@ class ApiRepository {
   updateRelative(Relative relative) async {
     return await _apiHandling.updateRelative(relative);
   }
+
+  getPlaceIds(String _birthPlace) async {
+    return await _apiHandling.getPlaceIdLists(_birthPlace);
+  }
 }

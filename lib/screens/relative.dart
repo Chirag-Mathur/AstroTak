@@ -28,7 +28,7 @@ class _RelativeScreenState extends State<RelativeScreen> {
     relatives.removeWhere((relative) => relative.uuid == uuid);
     logger.i('logger --> ${relatives.length}');
     relativeBloc.add(DeleteRelative(uuid));
-    relativeBloc.add(FetchAllRelatives());
+    // relativeBloc.add(FetchAllRelatives());
   }
 
   void _updateRelative(Relative relative) {
@@ -48,10 +48,15 @@ class _RelativeScreenState extends State<RelativeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     relativeBloc = BlocProvider.of<RelativesBloc>(context);
     relativeBloc.add(FetchAllRelatives());
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<RelativesBloc, RelativesState>(
         builder: (context, state) {
       logger.i(state);
@@ -72,7 +77,15 @@ class _RelativeScreenState extends State<RelativeScreen> {
                   )
                 : state is FetchingRelativesState
                     ? Center(
-                        child: CircularProgressIndicator(),
+                        child: Column(
+                          children: [
+                            CircularProgressIndicator(color: Colors.amber),
+                            Text(
+                              'Loading...',
+                              style: TextStyle(color: Colors.amber),
+                            ),
+                          ],
+                        ),
                       )
                     : state is FetchedRelativesState
                         ? Column(
@@ -203,8 +216,20 @@ class _RelativeScreenState extends State<RelativeScreen> {
                           )
                         : state is AddingRelativeState
                             ? Text('Adding')
-                            : state is UpdatedRelativeState
-                                ? Text('Updating')
+                            : state is UpdatingRelativeState
+                                ? Center(
+                                    child: Column(
+                                      children: [
+                                        CircularProgressIndicator(
+                                          color: Colors.amber,
+                                        ),
+                                        Text(
+                                          'Updating',
+                                          style: TextStyle(color: Colors.amber),
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 : Text('Error'),
       );
       // if (state is FetchingRelativesState) {

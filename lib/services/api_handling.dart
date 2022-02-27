@@ -66,8 +66,8 @@ class ApiHandling {
     String data1 = relativeToJson(relative);
     logger.i(data1);
     try {
-      BirthPlace birthPlace = await getPlaceId(relative.birthPlace);
-      relative.birthPlace = birthPlace;
+      // BirthPlace birthPlace = await getPlaceId(relative.birthPlace);
+      // relative.birthPlace = birthPlace;
 
       logger.i("Hello");
       final response = await Dio().post(url + 'relative',
@@ -83,10 +83,10 @@ class ApiHandling {
 
   Future<void> updateRelative(Relative relative) async {
     try {
-      BirthPlace birthPlace = await getPlaceId(relative.birthPlace);
-      relative.birthPlace = birthPlace;
+      // BirthPlace birthPlace = await getPlaceId(relative.birthPlace);
+      // relative.birthPlace = birthPlace;
 
-      logger.i("------------->>>>>>>>>" + birthPlace.placeId);
+      logger.i("------------->>>>>>>>>" + relative.birthPlace.placeName);
 
       final response = await Dio().post(
         url + 'relative/update/' + relative.uuid.toString(),
@@ -148,13 +148,45 @@ class ApiHandling {
       birthPlace = placeIds[0];
 
       logger.i(parsed);
-      // logger.i("Lengthhhh---->>>>" + parsed["data"].length);
-      // logger.i(parsed["data"].indexAt(0));
-      // placeId = parsed["data"].indexAt(0)["placeId"];
     } catch (e) {
       logger.e(e);
     }
 
     return birthPlace;
+  }
+
+  Future<List<BirthPlace>> getPlaceIdLists(String _birthPlace) async {
+    String birthPlace = _birthPlace;
+
+    List<BirthPlace> placeIdList = [];
+
+    logger.i("placeId" + birthPlace);
+    try {
+      Response<String> response = await Dio().get(
+        url + 'location/place?inputPlace=' + birthPlace,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
+        ),
+      );
+      logger.i(response.data);
+      final parsed = json.decode(response.data ?? "") as Map<String, dynamic>;
+
+      logger.d("Forrrr Loop");
+      parsed["data"].forEach((element) {
+        logger.i(element);
+        placeIdList.add(BirthPlace(
+          placeName: element["placeName"],
+          placeId: element["placeId"],
+        ));
+      });
+
+      logger.i(parsed);
+    } catch (e) {
+      logger.e(e);
+    }
+
+    return placeIdList;
   }
 }

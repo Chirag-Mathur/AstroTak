@@ -14,7 +14,7 @@ class RelativesBloc extends Bloc<RelativesEvent, RelativesState> {
       List<Relative> relatives = [];
       relatives = await apiRepository.getAllRelatives();
 
-      logger.i(relatives.length);
+      logger.i('${relatives.length} Fetched State Called --->');
       emit(FetchedRelativesState(relatives));
     });
     on<AddRelative>((event, emit) async {

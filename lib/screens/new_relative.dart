@@ -4,6 +4,7 @@ import 'package:astrotak/bloc/relative_bloc/relatives_state.dart';
 import 'package:astrotak/models/relative_model.dart';
 import 'package:astrotak/repository/api_repository.dart';
 import 'package:astrotak/services/logger.dart';
+import 'package:astrotak/widgets/place_birth.dart';
 import 'package:astrotak/widgets/relative_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,9 +40,7 @@ class _NewRelativeState extends State<NewRelative> {
         tobHour: 00,
         tobMin: 00,
         meridiem: "AM"),
-    birthPlace: BirthPlace(
-        placeName: "Kulharia, Bihar, India",
-        placeId: "ChIJwTa3v_6nkjkRC_b2yajUF_M"),
+    birthPlace: BirthPlace(placeName: "NA", placeId: "NA"),
     dateAndTimeOfBirth: DateTime.now(),
     firstName: "",
     fullName: "",
@@ -70,15 +69,22 @@ class _NewRelativeState extends State<NewRelative> {
   void didChangeDependencies() {
     if (widget.oldRelative != null) {
       _relative = widget.oldRelative;
+      dropdownValueGender = _relative!.gender;
+      dropdownValueRelation = _relative!.relationId;
     }
 
     super.didChangeDependencies();
   }
 
+  void addBirthPlaceDetails(BirthPlace birthPlace) {
+    _relative!.birthPlace = birthPlace;
+    logger.i("Addddddd Details------>>>> ${_relative!.birthPlace.placeName}");
+  }
+
   void _saveForm() async {
     logger.i("Saving Form --->>>>");
     final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
+    if (!isValid && _relative!.birthPlace.placeName.isEmpty) {
       return;
     }
     _formKey.currentState!.save();
@@ -156,16 +162,17 @@ class _NewRelativeState extends State<NewRelative> {
                         FocusScope.of(context).requestFocus(_focusNode);
                       },
                       onSaved: (value) {
-                        _relative!.fullName = value!;
-
-                        if (value.split(" ").length == 2) {
-                          _relative!.firstName = value.split(" ")[0];
+                        if (value!.split(" ").length == 2) {
+                          _relative!.firstName = value!.split(" ")[0];
                           _relative!.lastName = value.split(" ")[1];
-                        } else if (value.split(" ").length == 2) {
+                        } else if (value.split(" ").length >= 3) {
                           _relative!.firstName = value.split(" ")[0];
                           _relative!.lastName = value.split(" ")[2];
                           _relative!.middleName = value.split(" ")[1];
                         }
+
+                        logger.d(
+                            "${_relative!.firstName} ${_relative!.lastName}");
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -440,23 +447,27 @@ class _NewRelativeState extends State<NewRelative> {
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      //
-                      initialValue: _relative!.birthPlace.placeName,
-                      onSaved: (newValue) {
-                        logger.d("Placeeeeeeeeeeeeeeeeeeee");
-                        String placeId = DateTime.now().toString();
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: TextFormField(
+                  //     //
+                  //     initialValue: _relative!.birthPlace.placeName,
+                  //     onSaved: (newValue) {
+                  //       logger.d("Placeeeeeeeeeeeeeeeeeeee");
+                  //       String placeId = DateTime.now().toString();
 
-                        // logger
-                        //     .i(newValue + "-----------------------" + placeId);
-                        _relative!.birthPlace =
-                            BirthPlace(placeName: newValue!, placeId: placeId);
-                      },
+                  //       // logger
+                  //       //     .i(newValue + "-----------------------" + placeId);
+                  //       _relative!.birthPlace =
+                  //           BirthPlace(placeName: newValue!, placeId: placeId);
+                  //     },
 
-                      decoration: _inputDecoration(" "),
-                    ),
+                  //     decoration: _inputDecoration(" "),
+                  //   ),
+                  // ),
+                  PlaceBirth(
+                    addDetails: addBirthPlaceDetails,
+                    birthPlace: _relative!.birthPlace,
                   ),
                   Row(
                     children: [
@@ -530,7 +541,7 @@ class _NewRelativeState extends State<NewRelative> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 12.0),
                             child: Text(
-                              'Gender',
+                              'Relation',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 16),
                             ),
@@ -555,6 +566,13 @@ class _NewRelativeState extends State<NewRelative> {
                                         child: Text('Father'),
                                       ),
                                       value: 1,
+                                    ),
+                                    DropdownMenuItem(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Mother'),
+                                      ),
+                                      value: 2,
                                     ),
                                     DropdownMenuItem(
                                       child: Padding(
