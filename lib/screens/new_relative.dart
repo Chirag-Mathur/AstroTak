@@ -84,7 +84,7 @@ class _NewRelativeState extends State<NewRelative> {
   void _saveForm() async {
     logger.i("Saving Form --->>>>");
     final isValid = _formKey.currentState!.validate();
-    if (!isValid && _relative!.birthPlace.placeName.isEmpty) {
+    if (!isValid) {
       return;
     }
     _formKey.currentState!.save();
